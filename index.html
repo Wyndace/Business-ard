@@ -1,0 +1,154 @@
+<!DOCTYPE html>
+<html>
+
+<head>
+  <meta charset="UTF-8">
+  <title>BusinessСard | Wyndace's VueJS project</title>
+  <style>
+    body {
+      font-family: 'Arial', sans-serif;
+      color: #444444;
+      background-color: #f7f7f7;
+      padding: 20px 50px;
+    }
+
+    .settings {
+      box-sizing: border-box;
+      width: 450px;
+    }
+
+    .settings input {
+      box-sizing: border-box;
+      width: 100%;
+      padding: 5px 10px;
+      margin-bottom: 10px;
+    }
+
+    .card {
+      box-sizing: border-box;
+      box-shadow: 7px 7px 5px 0px #3232328c;
+      border-radius: 5px;
+      max-width: 500px;
+      min-height: 220px;
+      padding: 20px;
+      margin: 20px 0;
+      background-color: #ffffff;
+      overflow-wrap: break-word;
+    }
+
+    .card hr {
+      width: 100px;
+      margin: 0;
+    }
+
+    .card img {
+      float: left;
+      height: 200px;
+      max-width: 200px;
+      margin: 0 20px 0 0;
+    }
+
+    *:first-child {
+      margin-top: 0;
+    }
+
+    *:last-child {
+      margin-bottom: 0;
+    }
+
+    .button {
+      width: 200px;
+      height: 50px;
+      display: block;
+      margin: 0 0 20px 0;
+      background: #3232328c;
+      color: white;
+      font-family: "Comic Sans MS", sans-serif;
+    }
+  </style>
+</head>
+
+<body>
+  <div id="app">
+    <h1>Генератор визиток</h1>
+    <button v-on:click="isVisible = !isVisible" class="button">{{buttonText}}</button>
+    <div class="settings" v-if="isVisible">
+      <label>Фамилия:</label>
+      <input v-model="lastName" type="text">
+      <label>Имя:</label>
+      <input v-model="firstName" type="text">
+      <label>Отчество:</label>
+      <input v-model="patronimic" type="text">
+      <label>Ссылка на фото:</label>
+      <input v-model="image" type="text">
+      <label>Сфера деятельности:</label>
+      <input v-model="work" type="text">
+      <label>E-mail:</label>
+      <input v-model="email" type="text">
+      <label>Телефон:</label>
+      <input v-model="tel" type="text">
+      <label>Соц. Сеть:</label>
+      <input v-model="socials" type="text">
+      <label>Дата рождения:</label>
+      <input v-model="birthdate" type="date">
+    </div>
+
+    <div class="card">
+      <h2>{{fullName}}</h2>
+      <img :src="image">
+      <h3>{{work}}</h3>
+      <hr>
+      <p><b>E-mail:</b> {{email}}</p>
+      <p><b>Тел:</b> {{tel}}</p>
+      <p><b>Соц. Сеть:</b> {{socials}}</p>
+      <p><b>Дата рождения:</b> {{birthdateCalc}}</p>
+      <p><b>Мой возраст:</b> {{age}}</p>
+    </div>
+
+  </div>
+
+  <script src="./js/vue.js"></script>
+  <script>
+    "use strict"
+    let app = new Vue({
+      el: '#app',
+      data: {
+        lastName: "Васильев",
+        firstName: "Александр",
+        patronimic: "Алексеевич",
+        image: "https://avatars.githubusercontent.com/u/47427043?v=4",
+        work: "Разработка веб-сайтов",
+        email: "wyndace@hotmail.com, wyndace.av@ya.ru",
+        tel: "8 (800) 555 35 35",
+        birthdate: "2005-03-23",
+        socials: "https://t.me/Wyndace",
+        isVisible: true,
+      },
+      computed: {
+        fullName() {
+          return this.lastName + ' ' + this.firstName + ' ' + this.patronimic
+
+        },
+        age() {
+          let today = new Date();
+          let myAge = Math.floor((today - new Date(this.birthdate)) / 1000 / 60 / 60 / 24 / 365);
+          return myAge;
+        },
+        birthdateCalc() {
+          let birthArray = this.birthdate.split("-");
+          let birth = birthArray[2] + '.' + birthArray[1] + '.' + birthArray[0];
+          return birth;
+        },
+        buttonText() {
+          if (this.isVisible) {
+            return 'Свернуть настройки'
+          } else {
+            return 'Равзернуть настройки'
+          }
+        }
+      }
+    })
+  </script>
+</body>
+
+</html>
